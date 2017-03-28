@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+#main1 {
+	border-bottom-color: #CBCBCB;
+	padding: 5px;
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	margin: 10px 20px;
+	color: #0F6548;
+}
+
+#font1 {
+	color: #CE6A1F;
+	font-weight: bold;;
+	font-size: 14px;
+}
+
+#main2 {
+	margin: 10px 10px 0px 10px;
+	background-color: #FFFFFF;
+	border-bottom-color: #CBCBCB;
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+}
+
+.main3 {
+	border: 1px #DDDDDD solid;
+	width: 60px;
+	background-color: #EEEEEE;
+}

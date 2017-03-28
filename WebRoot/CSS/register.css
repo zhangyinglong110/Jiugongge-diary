@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+.registerMain {
+	width: 663;
+	height: 421;
+	background-color: #546B51;
+	padding: 4px;
+	position: absolute;
+	z-index: 11;
+	display: none;
+}
+
+.divUser {
+	border: #FF6600 1px solid;
+	color: #FF0000;
+	width: 90%;
+	height: 29px;
+	padding-top: 8px;
+}
+
+.divPwd {
+	border: #FF6600 1px solid;
+	color: #FF0000;
+	width: 90%;
+	height: 29px;
+	padding-top: 8px;
+	background-image: url(images/div_bg.jpg)
+}
