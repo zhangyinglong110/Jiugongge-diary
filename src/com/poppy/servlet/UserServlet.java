@@ -56,7 +56,26 @@ public class UserServlet extends HttpServlet {
 			this.forgetPwd1(req, resp);
 		} else if ("forgetPwd2".equals(action)) {
 			this.forgetPwd2(req, resp);
+		} else if ("checkUser".equals(action)) {
+			this.checkUser(req, resp); // 检查用户名是否被注册
 		}
+	}
+
+	/**
+	 * 
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
+	private void checkUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String username = req.getParameter("username"); // 获取用户输入的用户名
+		String sql = "SELECT * FROM tb_user WHERE username = '" + username + "'";
+		String result = userDao.checkUser(sql);// 调用UserDao类的checkUser()方法判断用户是否被注册
+		resp.setContentType("text/html");
+		PrintWriter out = resp.getWriter();
+		out.print(result); // 输出检测结果
+		out.flush();
+		out.close();
 	}
 
 	/**

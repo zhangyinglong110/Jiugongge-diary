@@ -152,4 +152,36 @@ public class UserDao {
 		return result;
 	}
 
+	/**
+	 * 检测用户
+	 * 
+	 * @param sql
+	 */
+	public String checkUser(String sql) {
+		Connection conn = C3P0Util.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		String result = "";
+		try {
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_FORWARD_ONLY);
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				result = "很抱歉，[" + rs.getString(2) + "]已经被注册！";
+			} else {
+				result = "1"; // 表示用户没有被注册
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				rs.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 }

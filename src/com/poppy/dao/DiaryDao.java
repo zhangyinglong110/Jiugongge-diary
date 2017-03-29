@@ -1,6 +1,10 @@
 package com.poppy.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -42,12 +46,22 @@ public class DiaryDao {
 	 * @return
 	 */
 	public int saveDiary(Diary diary) {
-		String sql = "INSERT INTO tab_diary(title,address,userid) VALUES('" + diary.getTitle() + "','"
-				+ diary.getAddress() + "','" + diary.getUserid() + ")";
-		System.out.println(sql); // 打印保存日记数据库的sql语句
-		// int ret = conn.executeUpdate(sql); // 执行保存数据库的操作
-		// conn.close();// 关闭数据库
-		return 0;
+		String sql = "insert into tb_diary (userid,address,title)values(?,?,?)";
+		Connection connection = null;
+		int result = 0;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = C3P0Util.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, diary.getUserid());
+			preparedStatement.setString(2, diary.getAddress());
+			preparedStatement.setString(3, diary.getTitle());
+			result = preparedStatement.executeUpdate();
+			C3P0Util.close(connection, preparedStatement, null);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return result;
 	}
 
 	/**
@@ -58,16 +72,23 @@ public class DiaryDao {
 	 */
 	public int deleteDiary(int id) {
 		String sql = "DELETE FROM tb_diary WHERE id = " + id;
-		System.out.println("打印删除数据时的sql" + sql);
-		int ret = 0;
+		Connection conn = C3P0Util.getConnection();
+		Statement stmt = null;
+		int result = 0;
 		try {
-			// ret = conn.executeUpdate(sql); // 执行更新语句
-		} catch (Exception exception) {
-			exception.printStackTrace();
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_FORWARD_ONLY);
+			result = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
-			// conn.close(); // 关闭数据库连接
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return ret;
+		return result;
 	}
 
 }
